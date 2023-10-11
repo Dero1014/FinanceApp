@@ -13,7 +13,6 @@ class ExpenseViewPage extends StatefulWidget {
 
 class _ExpenseViewPageState extends State<ExpenseViewPage> {
   CategoryList categoryList = CategoryList();
-  Account account = Account();
   late Category first;
 
   @override
@@ -47,7 +46,7 @@ class _ExpenseViewPageState extends State<ExpenseViewPage> {
               }),
         ),
         Text(first.expenseSum.toString()),
-        Text('${(first.expenseSum / (account.income * (first.percentage / 100)) *100).round().toString()} %'),
+        Text('${(first.expenseSum / (Account().income * (first.percentage / 100)) *100).round().toString()} %'),
         Expanded(
           child: ListView.builder(
               itemCount: first.expenses.length,

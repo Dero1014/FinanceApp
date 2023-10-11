@@ -14,7 +14,6 @@ class _ExpenseAddPageState extends State<ExpenseAddPage> {
   final detailsControler = TextEditingController();
   CategoryList categoryList = CategoryList();
   Category first = Category("das");
-  Account account = Account();
 
   @override
   void initState()
@@ -99,7 +98,7 @@ class _ExpenseAddPageState extends State<ExpenseAddPage> {
                 ),
             ),
             Text(first.expenseSum.toString()),
-            Text("${(first.expenseSum/(account.income*(first.percentage/100))*100).round().toString()}%")
+            Text("${(first.expenseSum/(Account().income*(first.percentage/100))*100).round().toString()}%")
           ],
           )
         ),

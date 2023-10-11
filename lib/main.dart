@@ -9,15 +9,20 @@ import 'package:finances/pages/categoryRatio.page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'classes/account.class.dart';
+import 'classes/expenses.class.dart';
 
 void main() async {
   
   await Hive.initFlutter();
+
+  // Register adapters
   Hive.registerAdapter(AccountAdapter());
   Hive.registerAdapter(CategoryAdapter());
   Hive.registerAdapter(ExpenseAdapter());
-  var box = await Hive.openBox("account");
-  var boxC = await Hive.openBox<Category>("catagories");
+
+  // Open boxes
+  await Hive.openBox("account");
+  await Hive.openBox<Category>("catagories");
 
   initStuff();
 

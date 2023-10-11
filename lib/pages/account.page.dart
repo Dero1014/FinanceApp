@@ -12,8 +12,6 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage>{
   final incomeController = TextEditingController();
 
-  Account ac = Account();
-
   @override
   Widget build(BuildContext context)
   {
@@ -39,7 +37,7 @@ class _AccountPageState extends State<AccountPage>{
             TextButton(
                 onPressed: () {
                   setState(() {
-                    ac.setIncome(int.parse(incomeController.text));
+                    Account().setIncome(int.parse(incomeController.text));
                   });
                   incomeController.clear();      
                 },
@@ -49,7 +47,7 @@ class _AccountPageState extends State<AccountPage>{
                 ),
                 child: const Text("Submit"),
               ),
-            Text(ac.income.toString())
+            Text(Account().income.toString())
         ]),
       )
     );
