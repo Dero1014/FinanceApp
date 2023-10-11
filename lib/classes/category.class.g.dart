@@ -20,7 +20,7 @@ class CategoryAdapter extends TypeAdapter<Category> {
       fields[0] as String,
     )
       ..percentage = fields[1] as double
-      ..expenseSum = fields[2] as int
+      ..expenseSum = fields[2] as double
       ..expenses = (fields[3] as List).cast<Expense>();
   }
 

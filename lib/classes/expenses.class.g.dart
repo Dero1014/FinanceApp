@@ -18,7 +18,7 @@ class ExpenseAdapter extends TypeAdapter<Expense> {
     };
     return Expense(
       fields[0] as String,
-      fields[1] as int,
+      fields[1] as double,
     );
   }
 

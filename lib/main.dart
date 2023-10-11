@@ -9,6 +9,7 @@ import 'package:finances/pages/categoryRatio.page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'classes/account.class.dart';
+import 'classes/boxes.class.dart';
 import 'classes/expenses.class.dart';
 
 void main() async {
@@ -23,6 +24,7 @@ void main() async {
   // Open boxes
   await Hive.openBox("account");
   await Hive.openBox<Category>("catagories");
+  await Hive.openBox("Conversion");
 
   initStuff();
 
@@ -39,11 +41,11 @@ void main() async {
   ));
 }
 
-
 void initStuff()
 {
   Account ac = Account();
   CategoryList cl = CategoryList();
   ac.initAccount();
   cl.initList();
+  Boxes().BoxesInit();
 }

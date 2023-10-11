@@ -18,6 +18,6 @@ class Boxes {
     // Get the directory where it saves the data
     // List all of hive elements
     // Get the boxes names of the elements
-    
+    boxes.add(Hive.box("Conversion"));
   }
 }

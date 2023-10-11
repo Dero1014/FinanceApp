@@ -9,7 +9,7 @@ class Expense
   @HiveField(0)
   String expenseDetails = "";
   @HiveField(1)
-  int expense = 0;
+  double expense = 0;
 
   Expense(this.expenseDetails, this.expense);
 }

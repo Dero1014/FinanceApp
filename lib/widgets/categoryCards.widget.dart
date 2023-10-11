@@ -1,4 +1,5 @@
 import 'package:finances/classes/account.class.dart';
+import 'package:finances/classes/boxes.class.dart';
 import 'package:flutter/material.dart';
 import 'package:finances/classes/category.class.dart';
 
@@ -41,7 +42,8 @@ class CategoryRatioCard extends StatefulWidget {
   final Category category;
   final Function visibleFunc;
 
-  const CategoryRatioCard({super.key, required this.category, required this.visibleFunc});
+  const CategoryRatioCard(
+      {super.key, required this.category, required this.visibleFunc});
 
   @override
   State<CategoryRatioCard> createState() => _CategoryRatioCardState();
@@ -84,8 +86,8 @@ class _CategoryRatioCardState extends State<CategoryRatioCard> {
               ],
             ),
             Text((ac.income * (widget.category.percentage) / 100)
-                .round()
-                .toString())
+                    .toStringAsFixed(2) +
+                Boxes().boxes[0].get("icon"))
           ],
         ),
       ),
