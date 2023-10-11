@@ -7,7 +7,7 @@ part 'account.class.g.dart';
 class Account
 {
   @HiveField(0)
-  int income = 0;
+  double income = 0;
   var box;
   
   // Singleton // +
@@ -20,11 +20,16 @@ class Account
   Account._internal();
   // Singleton // -
 
-  void setIncome(int income)
+  void setIncome(double income)
   {
     this.income = income;
     box.put("income", income);
     // print(box.get("income"));
+  }
+
+  double getIncome()
+  {
+    return income;
   }
 
 

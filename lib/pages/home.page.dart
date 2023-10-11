@@ -8,10 +8,15 @@ import 'dart:io';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  void nothin()
+  {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HomeBar("Menu"),
+      appBar: HomeBar("Home", nothin),
       body: Center(
         child: Column(
           children: <Widget>[
@@ -49,9 +54,12 @@ class HomePage extends StatelessWidget {
               onPressed: () async {
                 var box1 = Hive.box("account");
                 var box2 = Hive.box<Category>("catagories");
+                var box3 = Hive.box("Conversion");;
+
 
                 box1.clear();
                 box2.clear();
+                box3.clear();
               },
               style: TextButton.styleFrom(
                 foregroundColor: Colors.white,

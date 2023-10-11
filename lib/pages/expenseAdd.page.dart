@@ -2,6 +2,8 @@ import 'package:finances/classes/account.class.dart';
 import 'package:finances/classes/category.class.dart';
 import 'package:flutter/material.dart';
 
+import '../classes/boxes.class.dart';
+
 class ExpenseAddPage extends StatefulWidget {
   const ExpenseAddPage({super.key});
 
@@ -32,7 +34,7 @@ class _ExpenseAddPageState extends State<ExpenseAddPage> {
               controller: numberControler,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                hintText: "Expense..",
+                hintText: "Expense in " + Boxes().boxes[0].get("icon"),
                 border: const OutlineInputBorder(),
                 suffixIcon: IconButton(
                   onPressed: () {
@@ -64,7 +66,7 @@ class _ExpenseAddPageState extends State<ExpenseAddPage> {
                         //print("No expense has been added");
                         return;
                       }
-                      category.expense(detailsControler.text, int.parse(numberControler.text));
+                      category.expense(detailsControler.text, double.parse(numberControler.text));
                       detailsControler.clear();
                       numberControler.clear();
                     });
@@ -97,8 +99,8 @@ class _ExpenseAddPageState extends State<ExpenseAddPage> {
                 }
                 ),
             ),
-            Text(first.expenseSum.toString()),
-            Text("${(first.expenseSum/(Account().income*(first.percentage/100))*100).round().toString()}%")
+            Text(first.expenseSum.toStringAsFixed(2) + Boxes().boxes[0].get("icon")),
+            Text("${(first.expenseSum/(Account().income*(first.percentage/100))*100).round().toStringAsFixed(2)}%")
           ],
           )
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../classes/boxes.class.dart';
 import '../classes/expenses.class.dart';
 
 class ExpenseCard extends StatelessWidget {
@@ -24,7 +25,7 @@ class ExpenseCard extends StatelessWidget {
               ),
             ),
             Text(
-              '${expense.expense.toString()} kn',
+              '${expense.expense.toStringAsFixed(2)} ${Boxes().boxes[0].get("icon")}',
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.grey[600],

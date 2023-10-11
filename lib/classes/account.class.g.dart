@@ -16,7 +16,7 @@ class AccountAdapter extends TypeAdapter<Account> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Account()..income = fields[0] as int;
+    return Account()..income = fields[0] as double;
   }
 
   @override

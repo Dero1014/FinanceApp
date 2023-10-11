@@ -11,7 +11,7 @@ class Category {
   @HiveField(1)
   double percentage = 0;
   @HiveField(2)
-  int expenseSum = 0;
+  double expenseSum = 0;
   @HiveField(3)
   List<Expense> expenses = [];
 
@@ -22,7 +22,7 @@ class Category {
     initBox();
   }
 
-  void expense(String detail, int value)
+  void expense(String detail, double value)
   {
     expenseSum += value;
     addExpense(detail, value);
@@ -42,10 +42,17 @@ class Category {
     updateBox();
   }
 
-  void addExpense(String detail, int value)
+  void addExpense(String detail, double value)
   {
     Expense expense = Expense(detail, value);
     expenses.add(expense);
+  }
+
+  void sumExpenses()
+  {
+    for (var expense in expenses) {
+      expenseSum += expense.expense;
+    }
   }
 
   void updateBox()
