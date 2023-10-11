@@ -2,11 +2,8 @@ import 'package:finances/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../classes/category.class.dart';
-import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
-import 'package:excel/excel.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'dart:io';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -49,12 +46,12 @@ class HomePage extends StatelessWidget {
               child: const Text("Expenses"),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 var box1 = Hive.box("account");
                 var box2 = Hive.box<Category>("catagories");
 
-                box1.deleteFromDisk();
-                box2.deleteFromDisk();
+                box1.clear();
+                box2.clear();
               },
               style: TextButton.styleFrom(
                 foregroundColor: Colors.white,
@@ -65,11 +62,11 @@ class HomePage extends StatelessWidget {
             // This is all about excel
             TextButton(
               onPressed: () async {
-                var box1 = Hive.box("account");
+                //var box1 = Hive.box("account");
                 var box2 = Hive.box<Category>("catagories");
-                var excel = Excel.createExcel();
+                //var excel = Excel.createExcel();
                 String data = "";
-                print("Saving file");
+                //print("Saving file");
                 for (var i = 0; i < box2.length; i++) {
                   var category = box2.getAt(i);
                   String catSave = '\n${category!.name}:\n';

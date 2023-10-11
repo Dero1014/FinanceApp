@@ -1,5 +1,5 @@
-import 'package:finances/classes/category.class.dart';
 import 'package:flutter/material.dart';
+import '../classes/expenses.class.dart';
 
 class ExpenseCard extends StatelessWidget {
   final Expense expense;
