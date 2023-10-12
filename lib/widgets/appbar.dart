@@ -1,13 +1,12 @@
 import 'package:finances/classes/account.class.dart';
-import 'package:finances/classes/boxes.class.dart';
 import 'package:finances/classes/category.class.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 class HomeBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
-  Function state;
-  HomeBar(this.title, this.state);
+  final Function state;
+  const HomeBar(this.title, this.state);
 
   @override
   State<HomeBar> createState() => _HomeBarState();
@@ -41,10 +40,10 @@ class _HomeBarState extends State<HomeBar> {
               setState(() {
                 // Get all expenses
                 if (!convertToEuro) {
-                  ToEuro();
+                  toEuro();
                   box.put("icon", "€");
                 } else {
-                  ToHrk();
+                  toHrk();
                   box.put("icon", "kn");
                 }
                 convertToEuro = !convertToEuro;
@@ -52,19 +51,19 @@ class _HomeBarState extends State<HomeBar> {
                 widget.state();
               });
             },
-            icon: Icon(Icons.currency_exchange)),
+            icon: const Icon(Icons.currency_exchange)),
             Text(box.get("icon"))
       ],
     );
   }
 
-  void ToEuro() {
+  void toEuro() {
     double account = Account().getIncome();
     setState(() {
       Account().setIncome(account / euroConversion);
     });
 
-    print(Account().income);
+    //print(Account().income);
 
     for (var category in CategoryList().categories) {
       for (var expense in category.expenses) {
@@ -75,10 +74,9 @@ class _HomeBarState extends State<HomeBar> {
     }
   }
 
-  void ToHrk() {
+  void toHrk() {
     double account = Account().getIncome();
     Account().setIncome(account * euroConversion);
-    print(Account().income);
     for (var category in CategoryList().categories) {
       for (var expense in category.expenses) {
         expense.expense = expense.expense * euroConversion;

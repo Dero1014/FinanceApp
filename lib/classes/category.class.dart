@@ -98,7 +98,6 @@ class CategoryList{
 
   void removeFromList(int index) async
   {
-    print(box.deleteAt(index));
     categories.removeAt(index);    
   }
 

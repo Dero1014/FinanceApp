@@ -13,7 +13,7 @@ class Boxes {
   Boxes._internal();
   // Singleton // -
 
-  void BoxesInit()
+  void boxesInit()
   {
     // Get the directory where it saves the data
     // List all of hive elements

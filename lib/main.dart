@@ -41,11 +41,13 @@ void main() async {
   ));
 }
 
+
 void initStuff()
 {
   Account ac = Account();
   CategoryList cl = CategoryList();
   ac.initAccount();
   cl.initList();
-  Boxes().BoxesInit();
+  Boxes().boxesInit();
 }
+
