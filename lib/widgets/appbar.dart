@@ -5,8 +5,8 @@ import 'package:hive/hive.dart';
 
 class HomeBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
-  final Function state;
-  const HomeBar(this.title, this.state);
+  final bool visible;
+  const HomeBar(this.title, this.visible);
 
   @override
   State<HomeBar> createState() => _HomeBarState();
@@ -35,24 +35,25 @@ class _HomeBarState extends State<HomeBar> {
       backgroundColor: Colors.grey,
       centerTitle: true,
       actions: <Widget>[
-        IconButton(
-            onPressed: () {
-              setState(() {
-                // Get all expenses
-                if (!convertToEuro) {
-                  toEuro();
-                  box.put("icon", "€");
-                } else {
-                  toHrk();
-                  box.put("icon", "kn");
-                }
-                convertToEuro = !convertToEuro;
-                box.put("conversion", convertToEuro);
-                widget.state();
-              });
-            },
-            icon: const Icon(Icons.currency_exchange)),
-            Text(box.get("icon"))
+        Visibility(
+          visible: widget.visible,
+          child: IconButton(
+              onPressed: () {
+                setState(() {
+                  if (!convertToEuro) {
+                    toEuro();
+                    box.put("icon", "€");
+                  } else {
+                    toHrk();
+                    box.put("icon", "kn");
+                  }
+                  convertToEuro = !convertToEuro;
+                  box.put("conversion", convertToEuro);
+                });
+              },
+              icon: const Icon(Icons.currency_exchange)),
+        ),
+        Text(box.get("icon"))
       ],
     );
   }

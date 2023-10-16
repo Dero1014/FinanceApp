@@ -5,9 +5,14 @@ import '../classes/category.class.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   void nothin()
   {
 
@@ -16,7 +21,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HomeBar("Home", nothin),
+      appBar: HomeBar("Home", true),
       body: Center(
         child: Column(
           children: <Widget>[

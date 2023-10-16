@@ -1,3 +1,4 @@
+import 'package:finances/classes/category.class.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -32,6 +33,18 @@ class Account
     return income;
   }
 
+  double savedUp()
+  {
+    double saved = 0;
+    double sum = 0;
+
+    for (var category in CategoryList().categories) {
+      sum += category.expenseSum;
+    }
+
+    saved = income - sum;
+    return saved;
+  }
 
   void initAccount()
   {
