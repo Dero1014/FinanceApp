@@ -46,6 +46,19 @@ class Account
     return saved;
   }
 
+  double saveExpectency()
+  {
+    double savings = 0;
+    double sum = 0;
+
+    for (var category in CategoryList().categories) {
+      sum += (category.percentage/100) * income;
+    }
+
+    savings = income-sum;
+    return savings;
+  }
+
   void initAccount()
   {
     box = Hive.box("account");

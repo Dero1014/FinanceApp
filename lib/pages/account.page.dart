@@ -46,12 +46,8 @@ class _AccountPageState extends State<AccountPage> {
               child: const Text("Submit"),
             ),
             Text(Account().income.toStringAsFixed(2) + Boxes().boxes[0].get("icon")),
-            Text("Saved up: " + Account().savedUp().toStringAsFixed(2) + Boxes().boxes[0].get("icon")),
-            TextButton(
-              onPressed: (){
-                Navigator.pop(context);
-              },
-             child: Text("Back"))
+            Text('Saved up: ${Account().savedUp().toStringAsFixed(2)} ${Boxes().boxes[0].get("icon")}'),
+            Text('Expected savings: ${Account().saveExpectency().toStringAsFixed(2)} ${Boxes().boxes[0].get("icon")}'),
           ]),
         ));
   }

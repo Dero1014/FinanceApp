@@ -35,6 +35,10 @@ class _HomeBarState extends State<HomeBar> {
       backgroundColor: Colors.grey,
       centerTitle: true,
       actions: <Widget>[
+        Text(
+          box.get("icon"),
+          style: const TextStyle(fontSize: 40),
+        ),
         Visibility(
           visible: widget.visible,
           child: IconButton(
@@ -53,7 +57,6 @@ class _HomeBarState extends State<HomeBar> {
               },
               icon: const Icon(Icons.currency_exchange)),
         ),
-        Text(box.get("icon"))
       ],
     );
   }
