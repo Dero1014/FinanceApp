@@ -1,14 +1,12 @@
+import 'package:finances/classes/category.class.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-part 'account.class.g.dart';
+import 'boxes.class.dart';
 
-@HiveType(typeId: 0)
 class Account
 {
-  @HiveField(0)
   double income = 0;
-  var box;
   
   // Singleton // +
   static final Account _singleton = Account._internal();
@@ -23,7 +21,7 @@ class Account
   void setIncome(double income)
   {
     this.income = income;
-    box.put("income", income);
+    Boxes().boxAccount().put("income", income);
     // print(box.get("income"));
   }
 
@@ -32,15 +30,38 @@ class Account
     return income;
   }
 
+  double savedUp()
+  {
+    double saved = 0;
+    double sum = 0;
+
+    for (var category in CategoryList().categories) {
+      sum += category.expenseSum;
+    }
+
+    saved = income - sum;
+    return saved;
+  }
+
+  double saveExpectency()
+  {
+    double savings = 0;
+    double sum = 0;
+
+    for (var category in CategoryList().categories) {
+      sum += (category.percentage/100) * income;
+    }
+
+    savings = income-sum;
+    return savings;
+  }
 
   void initAccount()
   {
-    box = Hive.box("account");
-    if (box.isNotEmpty){
-      income = box.get("income");
-      // print(income);
+    if (Boxes().boxAccount().isNotEmpty){
+      income = Boxes().boxAccount().get("income");
     }
-    box.put("income", income);
+    Boxes().boxAccount().put("income", income);
   }
 
 }

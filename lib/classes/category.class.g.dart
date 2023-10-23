@@ -48,35 +48,3 @@ class CategoryAdapter extends TypeAdapter<Category> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
-
-class CategoryListAdapter extends TypeAdapter<CategoryList> {
-  @override
-  final int typeId = 2;
-
-  @override
-  CategoryList read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return CategoryList()..categories = (fields[0] as List).cast<Category>();
-  }
-
-  @override
-  void write(BinaryWriter writer, CategoryList obj) {
-    writer
-      ..writeByte(1)
-      ..writeByte(0)
-      ..write(obj.categories);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is CategoryListAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-}

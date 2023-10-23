@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'boxes.class.dart';
 import 'expenses.class.dart';
 
 part 'category.class.g.dart';
@@ -15,12 +16,7 @@ class Category {
   @HiveField(3)
   List<Expense> expenses = [];
 
-  var box;
-
-  Category(this.name)
-  {
-    initBox();
-  }
+  Category(this.name);
 
   void expense(String detail, double value)
   {
@@ -57,27 +53,16 @@ class Category {
 
   void updateBox()
   {
-    for (var i = 0; i < box.length; i++) {
-      if (box.getAt(i).name == name) {
-        box.putAt(i, box.getAt(i));
-        // print(box.getAt(i).expenses);
-        // print("Found it");
+    for (var i = 0; i < Boxes().boxCategories().length; i++) {
+      if (Boxes().boxCategories().getAt(i).name == name) {
+        Boxes().boxCategories().putAt(i, Boxes().boxCategories().getAt(i));
       }
     }
   }
-
-  void initBox() async
-  {
-    await Hive.openBox<Category>("catagories");
-    box = Hive.box<Category>("catagories");
-  }
 }
 
-@HiveType(typeId: 2)
 class CategoryList{
-  @HiveField(0)
   List<Category> categories = [];
-  var box;
 
   // Singleton // +
   static final CategoryList _singleton = CategoryList._internal();
@@ -93,22 +78,19 @@ class CategoryList{
   {
     var category = Category(name);
     categories.add(category);
-    box.add(category);
+    Boxes().boxCategories().add(category);
   }
 
   void removeFromList(int index) async
   {
-    print(box.deleteAt(index));
     categories.removeAt(index);    
   }
 
   void initList()
   {
-    box = Hive.box<Category>("catagories");
-
-    if (box.isNotEmpty) {
-      for (var i = 0; i < box.length; i++) {
-        categories.add(box.getAt(i) ?? Category("name"));
+    if (Boxes().boxCategories().isNotEmpty) {
+      for (var i = 0; i < Boxes().boxCategories().length; i++) {
+        categories.add(Boxes().boxCategories().getAt(i) ?? Category("name"));
       }
     }
   }

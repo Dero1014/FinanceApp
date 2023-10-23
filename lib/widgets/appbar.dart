@@ -6,8 +6,8 @@ import 'package:hive/hive.dart';
 
 class HomeBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
-  Function state;
-  HomeBar(this.title, this.state);
+  final bool visible;
+  const HomeBar(this.title, this.visible);
 
   @override
   State<HomeBar> createState() => _HomeBarState();
@@ -17,15 +17,14 @@ class HomeBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _HomeBarState extends State<HomeBar> {
-  var box = Hive.box("Conversion");
   bool convertToEuro = false;
 
   _HomeBarState() {
-    if (!box.containsKey("icon")) {
-      box.put("icon", "kn");
+    if (!Boxes().boxConversion().containsKey("icon")) {
+      Boxes().boxConversion().put("icon", "kn");
     }
-    if (box.containsKey("conversion")) {
-      convertToEuro = box.get("conversion");
+    if (Boxes().boxConversion().containsKey("conversion")) {
+      convertToEuro = Boxes().boxConversion().get("conversion");
     }
   }
 
@@ -36,35 +35,39 @@ class _HomeBarState extends State<HomeBar> {
       backgroundColor: Colors.grey,
       centerTitle: true,
       actions: <Widget>[
-        IconButton(
-            onPressed: () {
-              setState(() {
-                // Get all expenses
-                if (!convertToEuro) {
-                  ToEuro();
-                  box.put("icon", "€");
-                } else {
-                  ToHrk();
-                  box.put("icon", "kn");
-                }
-                convertToEuro = !convertToEuro;
-                box.put("conversion", convertToEuro);
-                widget.state();
-              });
-            },
-            icon: Icon(Icons.currency_exchange)),
-            Text(box.get("icon"))
+        Text(
+          Boxes().boxConversion().get("icon"),
+          style: const TextStyle(fontSize: 40),
+        ),
+        Visibility(
+          visible: widget.visible,
+          child: IconButton(
+              onPressed: () {
+                setState(() {
+                  if (!convertToEuro) {
+                    toEuro();
+                    Boxes().boxConversion().put("icon", "€");
+                  } else {
+                    toHrk();
+                    Boxes().boxConversion().put("icon", "kn");
+                  }
+                  convertToEuro = !convertToEuro;
+                  Boxes().boxConversion().put("conversion", convertToEuro);
+                });
+              },
+              icon: const Icon(Icons.currency_exchange)),
+        ),
       ],
     );
   }
 
-  void ToEuro() {
+  void toEuro() {
     double account = Account().getIncome();
     setState(() {
       Account().setIncome(account / euroConversion);
     });
 
-    print(Account().income);
+    //print(Account().income);
 
     for (var category in CategoryList().categories) {
       for (var expense in category.expenses) {
@@ -75,10 +78,9 @@ class _HomeBarState extends State<HomeBar> {
     }
   }
 
-  void ToHrk() {
+  void toHrk() {
     double account = Account().getIncome();
     Account().setIncome(account * euroConversion);
-    print(Account().income);
     for (var category in CategoryList().categories) {
       for (var expense in category.expenses) {
         expense.expense = expense.expense * euroConversion;
