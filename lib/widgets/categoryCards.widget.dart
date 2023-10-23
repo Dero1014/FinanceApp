@@ -3,6 +3,8 @@ import 'package:finances/classes/boxes.class.dart';
 import 'package:flutter/material.dart';
 import 'package:finances/classes/category.class.dart';
 
+import '../classes/widgethelper.class.dart';
+
 class CategoryCard extends StatelessWidget {
   final Category category;
   final Function() delete;
@@ -62,13 +64,15 @@ class _CategoryRatioCardState extends State<CategoryRatioCard> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              widget.category.name,
+              WidgetHelper().maxStringAllowed(widget.category.name),
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.grey[600],
               ),
             ),
+            const Spacer(),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Slider(
                     value: widget.category.percentage,
@@ -82,12 +86,12 @@ class _CategoryRatioCardState extends State<CategoryRatioCard> {
                         widget.category.changePercentage(value);
                       });
                     }),
-                Text("${widget.category.percentage.round()} %")
-              ],
-            ),
-            Text((ac.income * (widget.category.percentage) / 100)
+                Text("${widget.category.percentage.round()}%" ),
+                Text((ac.income * (widget.category.percentage) / 100)
                     .toStringAsFixed(2) +
                 Boxes().boxes[0].get("icon"))
+              ],
+            ),
           ],
         ),
       ),

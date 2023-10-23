@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import '../classes/boxes.class.dart';
 import '../classes/expenses.class.dart';
+import '../classes/widgethelper.class.dart';
 
 class ExpenseCard extends StatelessWidget {
   final Expense expense;
@@ -15,15 +18,18 @@ class ExpenseCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              expense.expenseDetails,
+              WidgetHelper().maxStringAllowed(expense.expenseDetails),
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.grey[600],
               ),
             ),
+            const Spacer(),
             Text(
               '${expense.expense.toStringAsFixed(2)} ${Boxes().boxes[0].get("icon")}',
               style: TextStyle(
