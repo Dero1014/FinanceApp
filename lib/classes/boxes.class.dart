@@ -1,9 +1,22 @@
-import 'package:hive/hive.dart';
+import 'dart:io';
 
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:path_provider/path_provider.dart';
+
+import 'account.class.dart';
+import 'category.class.dart';
+import 'expenses.class.dart';
+
+/* Boxes being used
+  Account
+  Categories
+  Conversion
+*/
 class Boxes {
   List<Box> boxes = [];
 
- // Singleton // +
+  // Singleton // +
   static final Boxes _singleton = Boxes._internal();
 
   factory Boxes() {
@@ -13,11 +26,38 @@ class Boxes {
   Boxes._internal();
   // Singleton // -
 
-  void boxesInit()
-  {
-    // Get the directory where it saves the data
-    // List all of hive elements
-    // Get the boxes names of the elements
-    boxes.add(Hive.box("Conversion"));
+  void registerAdapters() {
+    Hive.registerAdapter(CategoryAdapter());
+    Hive.registerAdapter(ExpenseAdapter());
+  }
+
+  Future<void> openBoxes() async {
+    registerAdapters();
+
+    boxes.add(await Hive.openBox("conversion"));
+    boxes.add(await Hive.openBox("account"));
+    boxes.add(await Hive.openBox<Category>("catagories"));
+  }
+
+  void listBoxes() async {
+    String directory = (await getApplicationDocumentsDirectory()).path;
+    List files;
+
+    files = Directory("$directory").listSync();
+    for (var file in files) {
+      print(file);
+    }
+  }
+
+  Box boxConversion() {
+    return boxes[0];
+  }
+
+  Box boxAccount() {
+    return boxes[1];
+  }
+
+  Box boxCategories() {
+    return boxes[2];
   }
 }

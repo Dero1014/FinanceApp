@@ -16,15 +16,8 @@ void main() async {
   
   await Hive.initFlutter();
 
-  // Register adapters
-  Hive.registerAdapter(AccountAdapter());
-  Hive.registerAdapter(CategoryAdapter());
-  Hive.registerAdapter(ExpenseAdapter());
-
   // Open boxes
-  await Hive.openBox("account");
-  await Hive.openBox<Category>("catagories");
-  await Hive.openBox("Conversion");
+  await Boxes().openBoxes();
 
   initStuff();
 
@@ -48,6 +41,5 @@ void initStuff()
   CategoryList cl = CategoryList();
   ac.initAccount();
   cl.initList();
-  Boxes().boxesInit();
 }
 

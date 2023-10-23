@@ -1,4 +1,5 @@
 import 'package:finances/classes/account.class.dart';
+import 'package:finances/classes/boxes.class.dart';
 import 'package:finances/classes/category.class.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -16,15 +17,14 @@ class HomeBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _HomeBarState extends State<HomeBar> {
-  var box = Hive.box("Conversion");
   bool convertToEuro = false;
 
   _HomeBarState() {
-    if (!box.containsKey("icon")) {
-      box.put("icon", "kn");
+    if (!Boxes().boxConversion().containsKey("icon")) {
+      Boxes().boxConversion().put("icon", "kn");
     }
-    if (box.containsKey("conversion")) {
-      convertToEuro = box.get("conversion");
+    if (Boxes().boxConversion().containsKey("conversion")) {
+      convertToEuro = Boxes().boxConversion().get("conversion");
     }
   }
 
@@ -36,7 +36,7 @@ class _HomeBarState extends State<HomeBar> {
       centerTitle: true,
       actions: <Widget>[
         Text(
-          box.get("icon"),
+          Boxes().boxConversion().get("icon"),
           style: const TextStyle(fontSize: 40),
         ),
         Visibility(
@@ -46,13 +46,13 @@ class _HomeBarState extends State<HomeBar> {
                 setState(() {
                   if (!convertToEuro) {
                     toEuro();
-                    box.put("icon", "€");
+                    Boxes().boxConversion().put("icon", "€");
                   } else {
                     toHrk();
-                    box.put("icon", "kn");
+                    Boxes().boxConversion().put("icon", "kn");
                   }
                   convertToEuro = !convertToEuro;
-                  box.put("conversion", convertToEuro);
+                  Boxes().boxConversion().put("conversion", convertToEuro);
                 });
               },
               icon: const Icon(Icons.currency_exchange)),
