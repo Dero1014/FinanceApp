@@ -83,7 +83,8 @@ class CategoryList{
 
   void removeFromList(int index) async
   {
-    categories.removeAt(index);    
+    Boxes().boxCategories().delete(Boxes().boxCategories().keyAt(index));
+    categories.removeAt(index);
   }
 
   void initList()
