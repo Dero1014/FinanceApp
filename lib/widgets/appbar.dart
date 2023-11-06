@@ -2,7 +2,6 @@ import 'package:finances/classes/account.class.dart';
 import 'package:finances/classes/boxes.class.dart';
 import 'package:finances/classes/category.class.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 
 class HomeBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;

@@ -4,7 +4,6 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'account.class.dart';
 import 'category.class.dart';
 import 'expenses.class.dart';
 
