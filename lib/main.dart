@@ -10,7 +10,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'classes/account.class.dart';
 import 'classes/boxes.class.dart';
-import 'classes/expenses.class.dart';
 
 void main() async {
   

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import '../classes/boxes.class.dart';
 import '../classes/expenses.class.dart';
@@ -39,7 +37,7 @@ class ExpenseCard extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {
-                delete();
+                WidgetHelper().areYouSure(context, "You are about to delete an expense, are you sure?", delete);
               },
               icon: Icon(Icons.delete, color: Colors.red[300]),
             )

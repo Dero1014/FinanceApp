@@ -63,7 +63,6 @@ class _CategoryAddPageState extends State<CategoryAddPage> {
                       category: categoryList.categories[index],
                         delete: ((() {
                         setState(() {
-                          // print("removed category");
                           categoryList
                               .removeFromList(index);
                         });

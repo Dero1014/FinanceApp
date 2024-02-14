@@ -1,6 +1,8 @@
+import 'package:finances/classes/widgethelper.class.dart';
 import 'package:finances/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import '../classes/boxes.class.dart';
 import '../classes/category.class.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
@@ -13,9 +15,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  void nothin()
-  {
+  void nothin() {}
 
+  void deleteBoxes()
+  {
+    Boxes().boxAccount().clear();
+    Boxes().boxCategories().clear();
+    Boxes().boxConversion().clear();
   }
 
   @override
@@ -57,14 +63,7 @@ class _HomePageState extends State<HomePage> {
             ),
             TextButton(
               onPressed: () async {
-                var box1 = Hive.box("account");
-                var box2 = Hive.box<Category>("catagories");
-                var box3 = Hive.box("Conversion");;
-
-
-                box1.clear();
-                box2.clear();
-                box3.clear();
+                WidgetHelper().areYouSure(context, "You are about to delete all data, are you sure?", deleteBoxes);
               },
               style: TextButton.styleFrom(
                 foregroundColor: Colors.white,
@@ -75,19 +74,15 @@ class _HomePageState extends State<HomePage> {
             // This is all about excel
             TextButton(
               onPressed: () async {
-                //var box1 = Hive.box("account");
                 var box2 = Hive.box<Category>("catagories");
-                //var excel = Excel.createExcel();
                 String data = "";
-                //print("Saving file");
                 for (var i = 0; i < box2.length; i++) {
                   var category = box2.getAt(i);
                   String catSave = '\n${category!.name}:\n';
-
                   for (var j = 0; j < category.expenses.length; j++) {
-                    catSave += '\n${category.expenses[j].expense} kn = ${category.expenses[j].expenseDetails}';
+                    catSave +=
+                        '\n${category.expenses[j].expense} kn = ${category.expenses[j].expenseDetails}';
                   }
-
                   catSave += '\nTotal = ${category.expenseSum}\n';
                   data += catSave;
                 }

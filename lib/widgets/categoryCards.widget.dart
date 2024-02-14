@@ -29,7 +29,7 @@ class CategoryCard extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {
-                delete();
+                WidgetHelper().areYouSure(context, "You are about to delete a category, are you sure?", delete);
               },
               icon: Icon(Icons.delete, color: Colors.red[300]),
             )
@@ -39,6 +39,8 @@ class CategoryCard extends StatelessWidget {
     );
   }
 }
+
+///------------------Category Ratio card---------------------/// 
 
 class CategoryRatioCard extends StatefulWidget {
   final Category category;
