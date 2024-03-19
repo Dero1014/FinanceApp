@@ -12,26 +12,13 @@ class ExpensesPage extends StatefulWidget {
 class _ExpensesPageState extends State<ExpensesPage> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Expenses"),
-          centerTitle: true,
-          backgroundColor: Colors.grey,
-          bottom: const TabBar(
-            tabs:  <Widget>[
-              Tab(icon: Icon(Icons.add)),
-              Tab(icon: Icon(Icons.align_horizontal_left))
-            ],
-          ),
-        ),
-        body: const TabBarView(
-          children: [
-            ExpenseAddPage(),
-            ExpenseViewPage()
-          ],
-        ),
+    return Expanded(
+      child: Row(
+        children: <Widget>[
+          ExpenseAddPage(),
+          VerticalDivider(),
+          ExpenseViewPage()
+        ],
       ),
     );
   }

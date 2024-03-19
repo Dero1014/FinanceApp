@@ -37,31 +37,32 @@ class _CategoryRatioPageState extends State<CategoryRatioPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(
-      children: <Widget>[
-        Expanded(
-          child: ListView.builder(
-              itemCount: categoryList.categories.length,
-              itemBuilder: (context, index) {
-                return CategoryRatioCard(
-                    category: categoryList.categories[index],
-                    visibleFunc: getPercentageInfo);
-              }),
-        ),
-        Visibility(
-          visible: visible,
-          child: const Text(
-            'You are over 100%',
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+    return Expanded(
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: ListView.builder(
+                itemCount: categoryList.categories.length,
+                itemBuilder: (context, index) {
+                  return CategoryRatioCard(
+                      category: categoryList.categories[index],
+                      visibleFunc: getPercentageInfo);
+                }),
           ),
-        ),
-        const SizedBox(
-          height: 20,
-        )
-      ],
-    ));
+          Visibility(
+            visible: visible,
+            child: const Text(
+              'You are over 100%',
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          )
+        ],
+      ),
+    );
   }
 }

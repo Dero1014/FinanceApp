@@ -1,4 +1,12 @@
+import 'package:finances/classes/account.class.dart';
 import 'package:finances/classes/widgethelper.class.dart';
+import 'package:finances/pages/account.page.dart';
+import 'package:finances/pages/category.page.dart';
+import 'package:finances/pages/categoryAdd.page.dart';
+import 'package:finances/pages/categoryRatio.page.dart';
+import 'package:finances/pages/expenseAdd.page.dart';
+import 'package:finances/pages/expenseView.page.dart';
+import 'package:finances/pages/expenses.page.dart';
 import 'package:finances/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -15,10 +23,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+  NavigationRailLabelType labelType = NavigationRailLabelType.selected;
+  double groupAlignment = -1;
   void nothin() {}
 
-  void deleteBoxes()
-  {
+  void deleteBoxes() {
     Boxes().boxAccount().clear();
     Boxes().boxCategories().clear();
     Boxes().boxConversion().clear();
@@ -28,93 +38,42 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HomeBar("Home", true),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/category");
-              },
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.grey[600],
+      body: Row(
+        children: <Widget>[
+          NavigationRail(
+            selectedIndex: _selectedIndex,
+            groupAlignment: groupAlignment,
+            onDestinationSelected: (int index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            labelType: labelType,
+            useIndicator: true,
+            indicatorColor: Colors.amber,
+            destinations: const <NavigationRailDestination>[
+              NavigationRailDestination(
+                icon: Icon(Icons.person),
+                label: Text('First'),
               ),
-              child: const Text("Category"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/account");
-              },
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.grey[600],
+              NavigationRailDestination(
+                icon: Icon(Icons.book),
+                label: Text('Second'),
               ),
-              child: const Text("Account"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/expenses");
-              },
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.grey[600],
+              NavigationRailDestination(
+                icon: Icon(Icons.money),
+                label: Text('Third'),
               ),
-              child: const Text("Expenses"),
-            ),
-            TextButton(
-              onPressed: () async {
-                WidgetHelper().areYouSure(context, "You are about to delete all data, are you sure?", deleteBoxes);
-              },
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.red[600],
-              ),
-              child: const Text("Delete data"),
-            ),
-            // This is all about excel
-            TextButton(
-              onPressed: () async {
-                var box2 = Hive.box<Category>("catagories");
-                String data = "";
-                for (var i = 0; i < box2.length; i++) {
-                  var category = box2.getAt(i);
-                  String catSave = '\n${category!.name}:\n';
-                  for (var j = 0; j < category.expenses.length; j++) {
-                    catSave +=
-                        '\n${category.expenses[j].expense} kn = ${category.expenses[j].expenseDetails}';
-                  }
-                  catSave += '\nTotal = ${category.expenseSum}\n';
-                  data += catSave;
-                }
-                writeData(data);
-              },
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.green[600],
-              ),
-              child: const Text("Save Data"),
-            )
-          ],
-        ),
+            ],
+          ),
+          VerticalDivider( thickness: 1, width: 1),
+          <Widget>[
+              AccountPage(),
+              CategoryPage(),
+              ExpensesPage(),
+            ][_selectedIndex],
+        ],
       ),
     );
   }
-}
-
-Future<String> get _localPath async {
-  final directory = await getExternalStorageDirectory();
-
-  return directory!.path;
-}
-
-Future<File> get _localFile async {
-  final path = await _localPath;
-  return File('$path/data.txt');
-}
-
-Future<File> writeData(String data) async {
-  final file = await _localFile;
-
-  // Write the file
-  return file.writeAsString(data);
 }

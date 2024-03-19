@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'categoryAdd.page.dart';
 import 'categoryRatio.page.dart';
@@ -12,27 +13,14 @@ class CategoryPage extends StatefulWidget {
 class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2, 
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Categories"),
-          centerTitle: true,
-          backgroundColor: Colors.grey,
-          bottom: const TabBar(
-            tabs: <Widget>[
-              Tab(icon: Icon(Icons.add)),
-              Tab(icon: Icon(Icons.align_horizontal_left))
-            ],
-          ),
-        ),
-        body: const TabBarView(
-          children: [
-            CategoryAddPage(),
-            CategoryRatioPage()
-          ],
-        ),
-      )
+    return Expanded(
+      child: Row(
+        children: <Widget>[
+          CategoryAddPage(),
+          VerticalDivider(),
+          CategoryRatioPage()
+        ],
+      ),
     );
   }
 }
