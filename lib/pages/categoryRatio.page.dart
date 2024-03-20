@@ -1,3 +1,4 @@
+import 'package:finances/pages/home.page.dart';
 import 'package:flutter/material.dart';
 import 'package:finances/classes/category.class.dart';
 import 'package:finances/widgets/categoryCards.widget.dart';
@@ -37,32 +38,37 @@ class _CategoryRatioPageState extends State<CategoryRatioPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: ListView.builder(
-                itemCount: categoryList.categories.length,
-                itemBuilder: (context, index) {
-                  return CategoryRatioCard(
-                      category: categoryList.categories[index],
-                      visibleFunc: getPercentageInfo);
-                }),
+    return ValueListenableBuilder(
+      valueListenable: catListNotif,
+      builder: (context, value, child) {
+        return Expanded(
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: ListView.builder(
+                    itemCount: categoryList.categories.length,
+                    itemBuilder: (context, index) {
+                      return CategoryRatioCard(
+                          category: categoryList.categories[index],
+                          visibleFunc: getPercentageInfo);
+                    }),
+              ),
+              Visibility(
+                visible: visible,
+                child: const Text(
+                  'You are over 100%',
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              )
+            ],
           ),
-          Visibility(
-            visible: visible,
-            child: const Text(
-              'You are over 100%',
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          )
-        ],
-      ),
+        );
+      },
     );
   }
 }

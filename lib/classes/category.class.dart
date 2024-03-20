@@ -1,3 +1,4 @@
+import 'package:finances/pages/home.page.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'boxes.class.dart';
@@ -30,6 +31,7 @@ class Category {
     expenseSum -= expense.expense;
     expenses.remove(expense);
     updateBox();
+    catListNotif.dataChanged();
   }
 
   void changePercentage(double value)
@@ -42,6 +44,7 @@ class Category {
   {
     Expense expense = Expense(detail, value);
     expenses.add(expense);
+    catListNotif.dataChanged();
   }
 
   void sumExpenses()
@@ -79,12 +82,14 @@ class CategoryList{
     var category = Category(name);
     categories.add(category);
     Boxes().boxCategories().add(category);
+    catListNotif.dataChanged();
   }
 
   void removeFromList(int index) async
   {
     Boxes().boxCategories().delete(Boxes().boxCategories().keyAt(index));
     categories.removeAt(index);
+    catListNotif.dataChanged();
   }
 
   void initList()

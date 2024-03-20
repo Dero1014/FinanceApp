@@ -15,6 +15,18 @@ import '../classes/category.class.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
+class MyNotifier extends ValueNotifier<CategoryList>
+{
+  MyNotifier(CategoryList value) : super(value);
+
+  void dataChanged()
+  {
+    notifyListeners();
+  }
+}
+
+final MyNotifier catListNotif = new MyNotifier(CategoryList());
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
