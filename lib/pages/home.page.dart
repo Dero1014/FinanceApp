@@ -63,6 +63,40 @@ class _HomePageState extends State<HomePage> {
             labelType: labelType,
             useIndicator: true,
             indicatorColor: Colors.amber,
+            trailing: Column(children: <Widget>[
+              TextButton(
+              onPressed: () async {
+                var box2 = Hive.box<Category>("catagories");
+                String data = "";
+                for (var i = 0; i < box2.length; i++) {
+                  var category = box2.getAt(i);
+                  String catSave = '\n${category!.name}:\n';
+                  for (var j = 0; j < category.expenses.length; j++) {
+                    catSave +=
+                        '\n${category.expenses[j].expense} kn = ${category.expenses[j].expenseDetails}';
+                  }
+                  catSave += '\nTotal = ${category.expenseSum}\n';
+                  data += catSave;
+                }
+                writeData(data);
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.green[600],
+              ),
+              child: const Text("Save Data"),
+            ),
+            TextButton(
+              onPressed: () async {
+                WidgetHelper().areYouSure(context, "You are about to delete all data, are you sure?", deleteBoxes);
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.red[600],
+              ),
+              child: const Text("Delete data"),
+            ),
+            ]),
             destinations: const <NavigationRailDestination>[
               NavigationRailDestination(
                 icon: Icon(Icons.person),
@@ -88,4 +122,22 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+Future<String> get _localPath async {
+  final directory = 'F:\\Projects\\Flutter';
+
+  return directory;
+}
+
+Future<File> get _localFile async {
+  final path = await _localPath;
+  return File('$path/data.txt');
+}
+
+Future<File> writeData(String data) async {
+  final file = await _localFile;
+
+  // Write the file
+  return file.writeAsString(data);
 }
