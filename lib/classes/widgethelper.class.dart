@@ -36,13 +36,13 @@ class WidgetHelper {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text("No")),
+                    child: const Text("No")),
                 TextButton(
                   onPressed: () {
                     yesFunc();
                     Navigator.pop(context);
                   },
-                  child: Text("Yes"),
+                  child: const Text("Yes"),
                 )
               ],
             ));

@@ -31,7 +31,7 @@ class Category {
     expenseSum -= expense.expense;
     expenses.remove(expense);
     updateBox();
-    catListNotif.dataChanged();
+    notifier.dataChanged();
   }
 
   void changePercentage(double value)
@@ -44,7 +44,7 @@ class Category {
   {
     Expense expense = Expense(detail, value);
     expenses.add(expense);
-    catListNotif.dataChanged();
+    notifier.dataChanged();
   }
 
   void sumExpenses()
@@ -82,14 +82,14 @@ class CategoryList{
     var category = Category(name);
     categories.add(category);
     Boxes().boxCategories().add(category);
-    catListNotif.dataChanged();
+    notifier.dataChanged();
   }
 
   void removeFromList(int index) async
   {
     Boxes().boxCategories().delete(Boxes().boxCategories().keyAt(index));
     categories.removeAt(index);
-    catListNotif.dataChanged();
+    notifier.dataChanged();
   }
 
   void initList()

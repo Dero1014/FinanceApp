@@ -39,7 +39,7 @@ class _CategoryRatioPageState extends State<CategoryRatioPage> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: catListNotif,
+      valueListenable: notifier,
       builder: (context, value, child) {
         return Expanded(
           child: Column(

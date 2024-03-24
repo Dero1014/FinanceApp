@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'categoryAdd.page.dart';
 import 'categoryRatio.page.dart';
@@ -13,7 +12,7 @@ class CategoryPage extends StatefulWidget {
 class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return const Expanded(
       child: Row(
         children: <Widget>[
           CategoryAddPage(),

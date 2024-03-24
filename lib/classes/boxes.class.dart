@@ -42,9 +42,9 @@ class Boxes {
     String directory = (await getApplicationDocumentsDirectory()).path;
     List files;
 
-    files = Directory("$directory").listSync();
+    files = Directory(directory).listSync();
     for (var file in files) {
-      print(file);
+      //print(file);
     }
   }
 

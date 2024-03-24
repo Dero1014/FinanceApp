@@ -1,23 +1,17 @@
-import 'package:finances/classes/account.class.dart';
 import 'package:finances/classes/widgethelper.class.dart';
 import 'package:finances/pages/account.page.dart';
 import 'package:finances/pages/category.page.dart';
-import 'package:finances/pages/categoryAdd.page.dart';
-import 'package:finances/pages/categoryRatio.page.dart';
-import 'package:finances/pages/expenseAdd.page.dart';
-import 'package:finances/pages/expenseView.page.dart';
 import 'package:finances/pages/expenses.page.dart';
 import 'package:finances/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../classes/boxes.class.dart';
 import '../classes/category.class.dart';
-import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
-class MyNotifier extends ValueNotifier<CategoryList>
+class MyNotifier extends ValueNotifier
 {
-  MyNotifier(CategoryList value) : super(value);
+  MyNotifier(value) : super(value);
 
   void dataChanged()
   {
@@ -25,7 +19,7 @@ class MyNotifier extends ValueNotifier<CategoryList>
   }
 }
 
-final MyNotifier catListNotif = new MyNotifier(CategoryList());
+final MyNotifier notifier = MyNotifier(int);
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -49,7 +43,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HomeBar("Home", true),
+      appBar: const HomeBar("Home", true),
       body: Row(
         children: <Widget>[
           NavigationRail(
@@ -100,23 +94,27 @@ class _HomePageState extends State<HomePage> {
             destinations: const <NavigationRailDestination>[
               NavigationRailDestination(
                 icon: Icon(Icons.person),
-                label: Text('First'),
+                label: Text('Account'),
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.book),
-                label: Text('Second'),
+                label: Text('Categories'),
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.money),
-                label: Text('Third'),
+                label: Text('Expenses'),
+              ),
+              NavigationRailDestination(
+                icon: Icon(Icons.save),
+                label: Text('Data location'),
               ),
             ],
           ),
-          VerticalDivider( thickness: 1, width: 1),
+          const VerticalDivider( thickness: 1, width: 1),
           <Widget>[
-              AccountPage(),
-              CategoryPage(),
-              ExpensesPage(),
+              const AccountPage(),
+              const CategoryPage(),
+              const ExpensesPage(),
             ][_selectedIndex],
         ],
       ),
@@ -125,7 +123,7 @@ class _HomePageState extends State<HomePage> {
 }
 
 Future<String> get _localPath async {
-  final directory = 'F:\\Projects\\Flutter';
+  const directory = 'F:\\Projects\\Flutter';
 
   return directory;
 }
