@@ -77,19 +77,19 @@ class _CategoryRatioCardState extends State<CategoryRatioCard> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Slider(
-                    value: widget.category.percentage,
+                    value: widget.category.percentageBudget,
                     max: 100,
                     min: 0,
                     divisions: 100,
-                    label: widget.category.percentage.round().toString(),
+                    label: widget.category.percentageBudget.round().toString(),
                     onChanged: (double value) {
                       setState(() {
                         widget.visibleFunc();
                         widget.category.changePercentage(value);
                       });
                     }),
-                Text("${widget.category.percentage.round()}%" ),
-                Text((ac.income * (widget.category.percentage) / 100)
+                Text("${widget.category.percentageBudget.round()}%" ),
+                Text((ac.income * (widget.category.percentageBudget) / 100)
                     .toStringAsFixed(2) +
                 Boxes().boxes[0].get("icon"))
               ],

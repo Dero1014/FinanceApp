@@ -19,22 +19,28 @@ class CategoryAdapter extends TypeAdapter<Category> {
     return Category(
       fields[0] as String,
     )
-      ..percentage = fields[1] as double
-      ..expenseSum = fields[2] as double
-      ..expenses = (fields[3] as List).cast<Expense>();
+      ..percentageBudget = fields[1] as double
+      ..budget = fields[2] as double
+      ..usedPercentage = fields[3] as double
+      ..expenseSum = fields[4] as double
+      ..expenses = (fields[5] as List).cast<Expense>();
   }
 
   @override
   void write(BinaryWriter writer, Category obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.percentage)
+      ..write(obj.percentageBudget)
       ..writeByte(2)
-      ..write(obj.expenseSum)
+      ..write(obj.budget)
       ..writeByte(3)
+      ..write(obj.usedPercentage)
+      ..writeByte(4)
+      ..write(obj.expenseSum)
+      ..writeByte(5)
       ..write(obj.expenses);
   }
 

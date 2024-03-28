@@ -24,7 +24,7 @@ class _CategoryRatioPageState extends State<CategoryRatioPage> {
   void getPercentageInfo() {
     double sum = 0;
     for (var i = 0; i < categoryList.categories.length; i++) {
-      sum += categoryList.categories[i].percentage;
+      sum += categoryList.categories[i].percentageBudget;
 
       setState(() {
         if (sum > 100) {

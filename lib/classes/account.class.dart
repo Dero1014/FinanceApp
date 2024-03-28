@@ -47,7 +47,7 @@ class Account
     double sum = 0;
 
     for (var category in CategoryList().categories) {
-      sum += (category.percentage/100) * income;
+      sum += (category.percentageBudget/100) * income;
     }
 
     savings = income-sum;

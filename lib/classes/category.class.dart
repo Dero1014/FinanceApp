@@ -1,3 +1,4 @@
+import 'package:finances/classes/account.class.dart';
 import 'package:finances/pages/home.page.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -11,51 +12,66 @@ class Category {
   @HiveField(0)
   String name = "";
   @HiveField(1)
-  double percentage = 0;
+  double percentageBudget = 0;
   @HiveField(2)
-  double expenseSum = 0;
+  double budget = 0;
   @HiveField(3)
+  double usedPercentage = 0;
+  @HiveField(4)
+  double expenseSum = 0;
+  @HiveField(5)
   List<Expense> expenses = [];
 
   Category(this.name);
 
-  void expense(String detail, double value)
+  void changePercentage(double value) {
+    percentageBudget = value;
+    getBudget();
+    updateBox();
+  }
+
+  double getBudget() {
+    budget = percentageBudget / 100 * Account().income;
+    return budget;
+  }
+
+  double getUsedPercentage()
   {
+    usedPercentage = expenseSum/budget*100;
+    return usedPercentage;
+  }
+
+  double savedUp()
+  {
+    return budget-expenseSum;
+  }
+
+  void expense(String detail, double value) {
     expenseSum += value;
     addExpense(detail, value);
     updateBox();
   }
 
-  void removeExpense(Expense expense)
-  {
+  void addExpense(String detail, double value) {
+    Expense expense = Expense(detail, value);
+    expenses.add(expense);
+    notifier.dataChanged();
+  }
+
+  void removeExpense(Expense expense) {
     expenseSum -= expense.expense;
     expenses.remove(expense);
     updateBox();
     notifier.dataChanged();
   }
 
-  void changePercentage(double value)
-  {
-    percentage = value;
-    updateBox();
-  }
-
-  void addExpense(String detail, double value)
-  {
-    Expense expense = Expense(detail, value);
-    expenses.add(expense);
-    notifier.dataChanged();
-  }
-
-  void sumExpenses()
-  {
+  void sumExpenses() {
     for (var expense in expenses) {
       expenseSum += expense.expense;
     }
   }
 
-  void updateBox()
-  {
+  void updateBox() {
     for (var i = 0; i < Boxes().boxCategories().length; i++) {
       if (Boxes().boxCategories().getAt(i).name == name) {
         Boxes().boxCategories().putAt(i, Boxes().boxCategories().getAt(i));
@@ -64,7 +80,7 @@ class Category {
   }
 }
 
-class CategoryList{
+class CategoryList {
   List<Category> categories = [];
 
   // Singleton // +
@@ -77,23 +93,20 @@ class CategoryList{
   CategoryList._internal();
   // Singleton // -
 
-  void addToList(String name)
-  {
+  void addToList(String name) {
     var category = Category(name);
     categories.add(category);
     Boxes().boxCategories().add(category);
     notifier.dataChanged();
   }
 
-  void removeFromList(int index) async
-  {
+  void removeFromList(int index) async {
     Boxes().boxCategories().delete(Boxes().boxCategories().keyAt(index));
     categories.removeAt(index);
     notifier.dataChanged();
   }
 
-  void initList()
-  {
+  void initList() {
     if (Boxes().boxCategories().isNotEmpty) {
       for (var i = 0; i < Boxes().boxCategories().length; i++) {
         categories.add(Boxes().boxCategories().getAt(i) ?? Category("name"));

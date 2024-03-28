@@ -5,16 +5,15 @@ import 'package:finances/pages/expenses.page.dart';
 import 'package:finances/widgets/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import '../classes/boxes.class.dart';
 import '../classes/category.class.dart';
 import 'dart:io';
 
-class MyNotifier extends ValueNotifier
-{
+class MyNotifier extends ValueNotifier {
   MyNotifier(value) : super(value);
 
-  void dataChanged()
-  {
+  void dataChanged() {
     notifyListeners();
   }
 }
@@ -29,9 +28,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-  NavigationRailLabelType labelType = NavigationRailLabelType.selected;
-  double groupAlignment = -1;
+  //Options regarding n
+  int navigationRailIndex = 0;
+  NavigationRailLabelType navigationLabelType =
+      NavigationRailLabelType.selected;
+  double navigationAlignment = -1;
+
   void nothin() {}
 
   void deleteBoxes() {
@@ -47,49 +49,63 @@ class _HomePageState extends State<HomePage> {
       body: Row(
         children: <Widget>[
           NavigationRail(
-            selectedIndex: _selectedIndex,
-            groupAlignment: groupAlignment,
-            onDestinationSelected: (int index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
-            labelType: labelType,
+            selectedIndex: navigationRailIndex,
+            groupAlignment: navigationAlignment,
+            labelType: navigationLabelType,
             useIndicator: true,
             indicatorColor: Colors.amber,
+            onDestinationSelected: (int index) {
+              setState(() {
+                navigationRailIndex = index;
+              });
+            },
             trailing: Column(children: <Widget>[
               TextButton(
-              onPressed: () async {
-                var box2 = Hive.box<Category>("catagories");
-                String data = "";
-                for (var i = 0; i < box2.length; i++) {
-                  var category = box2.getAt(i);
-                  String catSave = '\n${category!.name}:\n';
-                  for (var j = 0; j < category.expenses.length; j++) {
+                onPressed: () async {
+                  DateTime now = DateTime.now();
+                  DateTime date = DateTime(now.year, now.month, now.day);
+                  DateTime monthAgo = date.subtract(const Duration(days: 30));
+
+                  var catList = CategoryList();
+                  String data =
+                      'Bills dating from ${DateFormat('dd-MM-yyyy').format(monthAgo)} to ${DateFormat('dd-MM-yyyy').format(date)}\n';
+
+                  for (var category in catList.categories) {
+                    String catSave =
+                        '\n${category!.name} [${category!.getBudget().toStringAsFixed(2)} ${Boxes().boxConversion().get('icon')}] [${category!.percentageBudget.toStringAsFixed(2)}%]:';
+
+                    for (var expense in category.expenses) {
+                      catSave +=
+                          '\n${expense.expense.toStringAsFixed(2)} ${Boxes().boxConversion().get('icon')} = ${expense.expenseDetails}';
+                    }
                     catSave +=
-                        '\n${category.expenses[j].expense} kn = ${category.expenses[j].expenseDetails}';
+                        '\nTotal = ${category.expenseSum} ${Boxes().boxConversion().get('icon')} [${category.getUsedPercentage()}%]';
+                    catSave +=
+                        '\nYou ${(category.savedUp()) > 0 ? 'saved' : 'lost'} ${category.savedUp().toStringAsFixed(2)} ${Boxes().boxConversion().get('icon')}\n';
+                    data += catSave;
                   }
-                  catSave += '\nTotal = ${category.expenseSum}\n';
-                  data += catSave;
-                }
-                writeData(data);
-              },
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.green[600],
+
+                  writeData(data);
+                },
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.green[600],
+                ),
+                child: const Text("Save Data"),
               ),
-              child: const Text("Save Data"),
-            ),
-            TextButton(
-              onPressed: () async {
-                WidgetHelper().areYouSure(context, "You are about to delete all data, are you sure?", deleteBoxes);
-              },
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.red[600],
+              TextButton(
+                onPressed: () async {
+                  WidgetHelper().areYouSure(
+                      context,
+                      "You are about to delete all data, are you sure?",
+                      deleteBoxes);
+                },
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.red[600],
+                ),
+                child: const Text("Delete data"),
               ),
-              child: const Text("Delete data"),
-            ),
             ]),
             destinations: const <NavigationRailDestination>[
               NavigationRailDestination(
@@ -110,12 +126,12 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-          const VerticalDivider( thickness: 1, width: 1),
+          const VerticalDivider(thickness: 1, width: 1),
           <Widget>[
-              const AccountPage(),
-              const CategoryPage(),
-              const ExpensesPage(),
-            ][_selectedIndex],
+            const AccountPage(),
+            const CategoryPage(),
+            const ExpensesPage(),
+          ][navigationRailIndex],
         ],
       ),
     );

@@ -103,7 +103,7 @@ class _ExpenseAddPageState extends State<ExpenseAddPage> {
                     ),
                 ),
                 Text(first.expenseSum.toStringAsFixed(2) + Boxes().boxes[0].get("icon")),
-                Text("${(first.expenseSum/(Account().income*(first.percentage/100))*100).round().toStringAsFixed(2)}%")
+                Text("${(first.expenseSum/(Account().income*(first.percentageBudget/100))*100).round().toStringAsFixed(2)}%")
               ],
               )
             ),

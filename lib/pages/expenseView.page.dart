@@ -53,7 +53,7 @@ class _ExpenseViewPageState extends State<ExpenseViewPage> {
             Text(first.expenseSum.toStringAsFixed(2) +
                 Boxes().boxes[0].get("icon")),
             Text(
-                '${(first.expenseSum / (Account().income * (first.percentage / 100)) * 100).round().toStringAsFixed(2)} %'),
+                '${(first.expenseSum / (Account().income * (first.percentageBudget / 100)) * 100).round().toStringAsFixed(2)} %'),
             Expanded(
               child: ListView.builder(
                   itemCount: first.expenses.length,
