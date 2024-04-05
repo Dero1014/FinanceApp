@@ -36,6 +36,7 @@ class Boxes {
     boxes.add(await Hive.openBox("conversion"));
     boxes.add(await Hive.openBox("account"));
     boxes.add(await Hive.openBox<Category>("catagories"));
+    boxes.add(await Hive.openBox("settings"));
   }
 
   void listBoxes() async {
@@ -44,7 +45,7 @@ class Boxes {
 
     files = Directory(directory).listSync();
     for (var file in files) {
-      //print(file);
+      print(file);
     }
   }
 
@@ -58,5 +59,8 @@ class Boxes {
 
   Box boxCategories() {
     return boxes[2];
+  }
+  Box boxSettings() {
+    return boxes[3];
   }
 }

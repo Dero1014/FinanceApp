@@ -2,9 +2,9 @@ import 'package:finances/classes/widgethelper.class.dart';
 import 'package:finances/pages/account.page.dart';
 import 'package:finances/pages/category.page.dart';
 import 'package:finances/pages/expenses.page.dart';
+import 'package:finances/pages/saveSettings.page.dart';
 import 'package:finances/widgets/appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import '../classes/boxes.class.dart';
 import '../classes/category.class.dart';
@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
 
                   for (var category in catList.categories) {
                     String catSave =
-                        '\n${category!.name} [${category!.getBudget().toStringAsFixed(2)} ${Boxes().boxConversion().get('icon')}] [${category!.percentageBudget.toStringAsFixed(2)}%]:';
+                        '\n${category.name} [${category.getBudget().toStringAsFixed(2)} ${Boxes().boxConversion().get('icon')}] [${category.percentageBudget.toStringAsFixed(2)}%]:';
 
                     for (var expense in category.expenses) {
                       catSave +=
@@ -131,6 +131,7 @@ class _HomePageState extends State<HomePage> {
             const AccountPage(),
             const CategoryPage(),
             const ExpensesPage(),
+            SaveSettingsPage()
           ][navigationRailIndex],
         ],
       ),
@@ -139,14 +140,18 @@ class _HomePageState extends State<HomePage> {
 }
 
 Future<String> get _localPath async {
-  const directory = 'F:\\Projects\\Flutter';
-
+  var directory = Boxes().boxSettings().get("saveData");
+  print("Directory is " + directory);
   return directory;
 }
 
 Future<File> get _localFile async {
   final path = await _localPath;
-  return File('$path/data.txt');
+  DateTime now = DateTime.now();
+  DateTime date = DateTime(now.year, now.month, now.day);
+  DateTime monthAgo = date.subtract(const Duration(days: 30));
+
+  return File('$path/Bills [${DateFormat('MM').format(monthAgo)} - ${DateFormat('MM').format(date)}].txt');
 }
 
 Future<File> writeData(String data) async {
