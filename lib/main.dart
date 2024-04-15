@@ -40,5 +40,9 @@ void initStuff()
   CategoryList cl = CategoryList();
   ac.initAccount();
   cl.initList();
+  if(Boxes().boxSettings().get("saveData") == null)
+  {
+    Boxes().boxSettings().put("saveData", "F:\\Projects\\Flutter");
+  }
 }
 

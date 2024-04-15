@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
             const AccountPage(),
             const CategoryPage(),
             const ExpensesPage(),
-            SaveSettingsPage()
+            const SaveSettingsPage()
           ][navigationRailIndex],
         ],
       ),
