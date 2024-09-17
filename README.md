@@ -12,6 +12,7 @@ A financing app focused on keeping and organizing your money expendatures. Setup
 
 # How does it work
 1. Add your monthly income, this will be your budget for the month.
+(asset/home.png)
 2. Create categories that when combined would result in 100% of your budget example being Expenses 50%, Fun 20% and Savings 30%.
 3. For the rest of the month note each expense to it's appropriate category. In the example above Savings would have no expenses because nothing would be spent on it. This is used for the last step where...
 4. Save and review your expenses, you can choose a save location for the file and get a .txt file that will give you an overview for each category and how much you saved for each category.
